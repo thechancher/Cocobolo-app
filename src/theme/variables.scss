@@ -3,6 +3,22 @@
 
 /** Ionic CSS Variables **/
 :root {
+  /* cocobolo */
+  --ion-color-cocobolo: #1e7828;
+	--ion-color-cocobolo-rgb: 30,120,40;
+	--ion-color-cocobolo-contrast: #ffffff;
+	--ion-color-cocobolo-contrast-rgb: 255,255,255;
+	--ion-color-cocobolo-shade: #1a6a23;
+	--ion-color-cocobolo-tint: #35863e;
+
+  /* wood */
+  --ion-color-wood: #966F33;
+	--ion-color-wood-rgb: 150,111,51;
+	--ion-color-wood-contrast: #000000;
+	--ion-color-wood-contrast-rgb: 0,0,0;
+	--ion-color-wood-shade: #84622d;
+	--ion-color-wood-tint: #a17d47;
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -233,6 +249,24 @@
 
     --ion-card-background: #1e1e1e;
   }
+}
+
+.ion-color-cocobolo {
+	--ion-color-base: var(--ion-color-cocobolo);
+	--ion-color-base-rgb: var(--ion-color-cocobolo-rgb);
+	--ion-color-contrast: var(--ion-color-cocobolo-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-cocobolo-contrast-rgb);
+	--ion-color-shade: var(--ion-color-cocobolo-shade);
+	--ion-color-tint: var(--ion-color-cocobolo-tint);
+}
+
+.ion-color-wood {
+	--ion-color-base: var(--ion-color-wood);
+	--ion-color-base-rgb: var(--ion-color-wood-rgb);
+	--ion-color-contrast: var(--ion-color-wood-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-wood-contrast-rgb);
+	--ion-color-shade: var(--ion-color-wood-shade);
+	--ion-color-tint: var(--ion-color-wood-tint);
 }
 
 html {
