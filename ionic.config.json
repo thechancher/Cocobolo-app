@@ -1,0 +1,7 @@
+{
+  "name": "cocobolo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
