@@ -1,9 +1,10 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'cocobolo',
+  appId: 'com.cocobolo.app',
+  appName: 'Cocobolo',
   webDir: 'www',
+  bundledWebRuntime: false,
   server: {
     androidScheme: 'https'
   }

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cocobolo</string>
+    <string name="title_activity_main">Cocobolo</string>
+    <string name="package_name">com.cocobolo.app</string>
+    <string name="custom_url_scheme">com.cocobolo.app</string>
+</resources>
