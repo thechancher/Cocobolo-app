@@ -17,30 +17,49 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-Xs="12" size-sm="6" size-Md="3" *ngFor="let image of images">
-        <ion-card color="wood">
-          <ion-img [src]="image" alt="image"></ion-img>
+      <ion-col size="12" size-Xs="6" size-sm="6" size-Md="3" *ngFor="let image of images">
+        <ion-card color="wood" style="padding: 0.5em;">
+          <ion-img [src]="image.data" alt="image" style="height: 10em;"></ion-img>
 
-          <ion-card-header>
+          <ion-card-header style="padding: 0;">
             <ion-card-title>Title</ion-card-title>
-            <ion-card-subtitle>Description</ion-card-subtitle>
+            <ion-card-subtitle>{{image.name}}</ion-card-subtitle>
           </ion-card-header>
 
-          <ion-card-content>
+          <ion-card-content style="padding: 0;">
             Details
           </ion-card-content>
 
-          <ion-button color="cocobolo">Analyze</ion-button>
-          <ion-button color="cocobolo">Remove</ion-button>
+          <ion-button expand="full" color="cocobolo">
+            <ion-icon slot="start" name="search"></ion-icon>
+            <ion-label>Analyze</ion-label>
+          </ion-button>
+          <ion-button expand="full" color="medium">
+            <ion-icon slot="start" name="create"></ion-icon>
+            <ion-label>Edit</ion-label>
+          </ion-button>
+          <ion-button expand="full" color="danger" (click)="deleteImage(image)">
+            <ion-icon slot="start" name="trash"></ion-icon>
+            <ion-label>Remove</ion-label>
+          </ion-button>
+          
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button color="cocobolo" (click)="takeImage()">
-      <ion-icon name="camera"></ion-icon>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="wood">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="wood-second" (click)="loadImage()">
+        <ion-icon name="attach"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="wood-second" (click)="takeImage()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
 
 </ion-content>

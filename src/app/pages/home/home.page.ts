@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalFile } from 'src/app/models/tools';
 import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
@@ -9,19 +10,30 @@ import { CameraService } from 'src/app/services/camera.service';
 
 export class HomePage implements OnInit {
 
-  images: String[] = []
+  public images: LocalFile[] = []
 
-  constructor(
-    private cameraService: CameraService) {
-    this.images = cameraService.images
-
-  }
+  constructor(protected cameraService: CameraService) { }
 
   ngOnInit() {
+    this.cameraService.loadFiles()
   }
 
-  async takeImage() {
-    await this.cameraService.addNewImage()
+  ionViewDidEnter() {
+    this.images = this.cameraService.images
+  }
+
+  public async takeImage(): Promise<void> {
+    await this.cameraService.takeImage()
+    this.images = this.cameraService.images
+  }
+
+  public async loadImage(): Promise<void> {
+    await this.cameraService.loadImage()
+  }
+
+  public async deleteImage(file: LocalFile): Promise<void> {
+    await this.cameraService.deleteImage(file)
+    this.images = this.cameraService.images
   }
 
 }

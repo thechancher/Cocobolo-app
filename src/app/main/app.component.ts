@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +8,6 @@ import { Platform } from '@ionic/angular';
 
 export class AppComponent {
 
-  constructor(private platform: Platform) {
-    this.platform.backButton.subscribeWithPriority(9999, () => {
-      alert('do nothing.');
-    });
-  }
+  constructor() { }
 
 }

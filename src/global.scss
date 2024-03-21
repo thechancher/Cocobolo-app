@@ -26,5 +26,9 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 ion-menu-button {
-    color: var(--ion-color-cocobolo);
+    color: var(--ion-color-wood);
+}
+
+ion-card {
+    border-radius: 1em 1em 0px 0px;
 }
