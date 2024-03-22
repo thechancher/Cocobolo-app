@@ -31,18 +31,18 @@
           </ion-card-content>
 
           <ion-button expand="full" color="cocobolo">
-            <ion-icon slot="start" name="search"></ion-icon>
+            <ion-icon slot="start" name="search-outline"></ion-icon>
             <ion-label>Analyze</ion-label>
           </ion-button>
-          <ion-button expand="full" color="medium">
-            <ion-icon slot="start" name="create"></ion-icon>
+          <ion-button expand="full" color="medium" (click)="editImage(image.data)">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
             <ion-label>Edit</ion-label>
           </ion-button>
           <ion-button expand="full" color="danger" (click)="deleteImage(image)">
-            <ion-icon slot="start" name="trash"></ion-icon>
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
             <ion-label>Remove</ion-label>
           </ion-button>
-          
+
         </ion-card>
       </ion-col>
     </ion-row>

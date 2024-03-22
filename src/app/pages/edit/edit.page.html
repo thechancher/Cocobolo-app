@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Edit</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Edit</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-grid>
+
+      <ion-row>
+        <ion-button (click)="cropImage()" color="cocobolo">
+          <ion-icon name="cut-outline"></ion-icon>
+          <ion-label>Crop image</ion-label>
+        </ion-button>
+        <ion-button (click)="discardChange()" color="danger">
+          <ion-icon name="close-outline"></ion-icon>
+          <ion-label>Discard changes</ion-label>
+        </ion-button>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12" size-Xs="12" size-sm="6" style="max-height: 20em;">
+          <image-cropper #cropper [imageBase64]="imageBase64" [aspectRatio]="1/1" [maintainAspectRatio]="true"
+            outputType="base64" format="png" (imageLoaded)="imageLoaded()"
+            (loadImageFailed)="loadImageFailed()" (imageCropped)="imageCropped($event)">
+          </image-cropper>
+        </ion-col>
+
+        <ion-col size="12" size-Xs="12" size-sm="6">
+          <h4>Preview</h4>
+          <ion-img [src]="croppedImage" style="height: 50%;"></ion-img>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-content>
+
+</ion-content>
