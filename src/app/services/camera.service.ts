@@ -4,7 +4,6 @@ import { Directory, Filesystem } from '@capacitor/filesystem';
 import { LoadingController, Platform, ToastController } from '@ionic/angular';
 import { LocalFile } from '../models/tools';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -34,7 +33,12 @@ export class CameraService {
 
   private async saveImage(image: Photo): Promise<void> {
     // Convert photo to base64 format, required by Filesystem API to save
-    const image_base64 = await this.readAsBase64(image)
+    let image_base64: string | Blob
+    if (this.platform.is('hybrid')) {
+      image_base64 = await this.readAsBase64_hybrid(image)
+    } else {
+      image_base64 = await this.readAsBase64_web(<string>image.webPath)
+    }
 
     // Write the file to the data directory
     const date = this.formatDate()
@@ -46,20 +50,37 @@ export class CameraService {
     })
 
     this.loadFiles()
+    this.presentToast('File saved')
   }
 
-  private async readAsBase64(image: Photo): Promise<string | Blob> {
-    if (this.platform.is('hybrid')) {
-      const file = await Filesystem.readFile({
-        path: image.path!,
-      })
-      return file.data
+  public async updateImage(file: LocalFile): Promise<void> {
+    // Convert photo to base64 format, required by Filesystem API to save
+    const image_base64 = await this.readAsBase64_web(file.edited)
 
-    } else {
-      const response = await fetch(image.webPath!)
-      const blob = await response.blob()
-      return await this.convertBlobToBase64(blob) as string
-    }
+    // Write the file to the data directory
+    const date = this.formatDate()
+    const fileName = date + '_edited.jpeg'
+    await Filesystem.writeFile({
+      path: `${this.IMG_DIR}/${fileName}`,
+      data: image_base64,
+      directory: Directory.Data
+    })
+
+    this.loadFiles()
+    this.presentToast('File updated')
+  }
+
+  private async readAsBase64_hybrid(image: Photo): Promise<string | Blob> {
+    const file = await Filesystem.readFile({
+      path: image.path!,
+    })
+    return file.data
+  }
+
+  private async readAsBase64_web(image: string): Promise<string> {
+    const response = await fetch(image)
+    const blob = await response.blob()
+    return await this.convertBlobToBase64(blob) as string
   }
 
   private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
@@ -117,7 +138,6 @@ export class CameraService {
       directory: Directory.Data
     })
       .then(result => {
-        console.log("file data:", result)
         this.loadFileData(result.files.map((x) => x.name))
       },
         async err => {
@@ -144,25 +164,26 @@ export class CameraService {
       this.images.unshift({
         name: file,
         path: filepath,
-        data: `data:image/jpeg;base64,${readFile.data}`
+        data: `data:image/jpeg;base64,${readFile.data}`,
+        edited: ''
       })
     }
   }
 
-  private async presentToast(text: string) {
-    const toast = await this.toastCtrl.create({
-      message: text,
-      duration: 3000
-    })
-    toast.present()
-  }
-
-  public async deleteImage(file: LocalFile) {
+  public async deleteImage(file: LocalFile): Promise<void> {
     await Filesystem.deleteFile({
       directory: Directory.Data,
       path: file.path
     })
     this.loadFiles()
-    this.presentToast('File removed.')
+    this.presentToast('File removed')
+  }
+
+  private async presentToast(text: string): Promise<void> {
+    const toast = await this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    })
+    toast.present()
   }
 }

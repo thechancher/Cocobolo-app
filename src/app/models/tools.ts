@@ -4,5 +4,6 @@ export interface Tools {
 export interface LocalFile {
     name: string,
     path: string,
-    data: string
+    data: string,
+    edited: string
 }

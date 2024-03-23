@@ -13,19 +13,18 @@ import { EditPage } from '../edit/edit.page';
 export class HomePage implements OnInit {
 
   public images: LocalFile[] = []
-  public editImageURL: any = null
-  public croppedImage: any = null
 
   constructor(
     protected cameraService: CameraService,
     private modalCtrl: ModalController
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cameraService.loadFiles()
   }
 
   ionViewDidEnter() {
+    this.cameraService.loadFiles()
     this.images = this.cameraService.images
   }
 
@@ -36,26 +35,30 @@ export class HomePage implements OnInit {
 
   public async loadImage(): Promise<void> {
     await this.cameraService.loadImage()
+    this.images = this.cameraService.images
   }
 
-  public editImage(image: string) {
-    this.editImageURL = image
-    this.presentModal()
-  }
-
-  async presentModal() {
+  async editImage(image: LocalFile): Promise<void> {
     const modal = await this.modalCtrl.create({
       component: EditPage,
       componentProps: {
-        imageURL: this.editImageURL
+        image: image
       }
     })
 
     modal.onDidDismiss().then(data => {
-      this.croppedImage = data.data
+      const croppedImage: LocalFile = data.data
+      if (croppedImage != null) {
+        this.updateImage(croppedImage)
+      }
     })
 
     return await modal.present()
+  }
+
+  public async updateImage(croppedImage: LocalFile): Promise<void> {
+    await this.cameraService.updateImage(croppedImage)
+    this.images = this.cameraService.images
   }
 
   public async deleteImage(file: LocalFile): Promise<void> {

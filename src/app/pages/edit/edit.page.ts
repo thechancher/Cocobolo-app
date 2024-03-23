@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Capacitor } from '@capacitor/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { LocalFile } from 'src/app/models/tools';
+
 
 @Component({
   selector: 'app-edit',
@@ -10,11 +11,9 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 })
 
 export class EditPage implements OnInit {
-  @Input() imageURL!: string;
+  @ViewChild("cropper") cropper!: ImageCropperComponent
+  @Input() image!: LocalFile;
 
-  imageOriginal: string = ""
-  imageBase64: string = ""
-  croppedImage: any = null
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -24,33 +23,26 @@ export class EditPage implements OnInit {
   async ngOnInit() {
     const loading = await this.loadingCtrl.create()
     await loading.present()
-    this.imageOriginal = this.imageURL
-    this.imageBase64 = this.imageURL
   }
 
-  public imageLoaded() {
+  public imageLoaded(): void {
     this.loadingCtrl.dismiss()
   }
 
-  public loadImageFailed() {
+  public loadImageFailed(): void {
     console.log("Image load failed");
   }
 
-  public imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.objectUrl || event.base64 || '';
+  public imageCropped(event: ImageCroppedEvent): void {
+    this.image.edited = event.objectUrl || event.base64 || '';
   }
 
-  public cropImage() {
-    this.modalCtrl.dismiss(this.croppedImage)
+  public cropImage(): void {
+    this.modalCtrl.dismiss(this.image)
   }
 
-  public discardChange() {
-    this.modalCtrl.dismiss(this.imageOriginal)
-  }
-
-  private ionViewWillLeave() {
-    console.log("ON MODAL ionViewDidLeave")
-    this.modalCtrl.dismiss(this.imageOriginal)
+  public discardChange(): void {
+    this.modalCtrl.dismiss(null)
   }
 
 }
