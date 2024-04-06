@@ -21,13 +21,12 @@
         <ion-card color="wood" style="padding: 0.5em;">
           <ion-img [src]="image.data" alt="image" style="height: 10em;"></ion-img>
 
-          <ion-card-header style="padding: 0;">
-            <ion-card-title>Title</ion-card-title>
+          <ion-card-header style="padding: 0; padding-top: 1em;">
             <ion-card-subtitle>{{image.name}}</ion-card-subtitle>
           </ion-card-header>
-
-          <ion-card-content style="padding: 0;">
-            Details
+          <br>
+          <ion-card-content *ngIf="image.details" style="padding: 0; padding-bottom: 1em;">
+            {{image.details}}
           </ion-card-content>
 
           <ion-button expand="full" color="cocobolo">
@@ -36,7 +35,11 @@
           </ion-button>
           <ion-button expand="full" color="medium" (click)="editImage(image)">
             <ion-icon slot="start" name="create-outline"></ion-icon>
-            <ion-label>Edit</ion-label>
+            <ion-label>Edit image</ion-label>
+          </ion-button>
+          <ion-button expand="full" color="medium" (click)="editInfo(image)">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            <ion-label>Edit info</ion-label>
           </ion-button>
           <ion-button expand="full" color="danger" (click)="deleteImage(image)">
             <ion-icon slot="start" name="trash-outline"></ion-icon>

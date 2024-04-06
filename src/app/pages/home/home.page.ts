@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { LocalFile } from 'src/app/models/tools';
 import { CameraService } from 'src/app/services/camera.service';
 import { EditPage } from '../edit/edit.page';
+import { DetailPage } from '../detail/detail.page';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,7 @@ export class HomePage implements OnInit {
     private modalCtrl: ModalController
   ) { }
 
-  async ngOnInit() {
-    this.cameraService.loadFiles()
-  }
+  ngOnInit() { }
 
   ionViewDidEnter() {
     this.cameraService.loadFiles()
@@ -50,6 +49,17 @@ export class HomePage implements OnInit {
       const croppedImage: LocalFile = data.data
       if (croppedImage != null) {
         this.updateImage(croppedImage)
+      }
+    })
+
+    return await modal.present()
+  }
+
+  async editInfo(image: LocalFile): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: DetailPage,
+      componentProps: {
+        image: image
       }
     })
 

@@ -14,7 +14,6 @@ export class EditPage implements OnInit {
   @ViewChild("cropper") cropper!: ImageCropperComponent
   @Input() image!: LocalFile;
 
-
   constructor(
     public loadingCtrl: LoadingController,
     public modalCtrl: ModalController

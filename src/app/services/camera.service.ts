@@ -155,6 +155,7 @@ export class CameraService {
   private async loadFileData(fileNames: string[]): Promise<void> {
     for (let file of fileNames) {
       const filepath = `${this.IMG_DIR}/${file}`
+      const detail = localStorage.getItem(file)
 
       const readFile = await Filesystem.readFile({
         path: filepath,
@@ -165,7 +166,8 @@ export class CameraService {
         name: file,
         path: filepath,
         data: `data:image/jpeg;base64,${readFile.data}`,
-        edited: ''
+        edited: '',
+        details: detail
       })
     }
   }
@@ -175,6 +177,7 @@ export class CameraService {
       directory: Directory.Data,
       path: file.path
     })
+    localStorage.removeItem(file.name)
     this.loadFiles()
     this.presentToast('File removed')
   }
