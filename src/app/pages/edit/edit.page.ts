@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { CropperPosition, ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { LocalFile } from 'src/app/models/tools';
 
 
@@ -13,6 +13,9 @@ import { LocalFile } from 'src/app/models/tools';
 export class EditPage implements OnInit {
   @ViewChild("cropper") cropper!: ImageCropperComponent
   @Input() image!: LocalFile;
+
+  public width: number = 0;
+  public height: number = 0;
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -34,6 +37,40 @@ export class EditPage implements OnInit {
 
   public imageCropped(event: ImageCroppedEvent): void {
     this.image.edited = event.objectUrl || event.base64 || '';
+    this.width = event.width
+    this.height = event.height
+  }
+
+  public increaseCrop(): void {
+    var step_x: number = this.cropper.cropper.x2
+    step_x += .5
+    var step_y: number = this.cropper.cropper.y2
+    step_y += .5
+
+    const position: CropperPosition = {
+      x1: this.cropper.cropper.x1,
+      y1: this.cropper.cropper.y1,
+      x2: step_x,
+      y2: step_y
+    }
+    this.cropper.cropper = position
+    this.cropper.crop()
+  }
+
+  public decreaseCrop(): void {
+    var step_x: number = this.cropper.cropper.x2
+    step_x -= .5
+    var step_y: number = this.cropper.cropper.y2
+    step_y -= .5
+
+    const position: CropperPosition = {
+      x1: this.cropper.cropper.x1,
+      y1: this.cropper.cropper.y1,
+      x2: step_x,
+      y2: step_y
+    }
+    this.cropper.cropper = position
+    this.cropper.crop()
   }
 
   public cropImage(): void {

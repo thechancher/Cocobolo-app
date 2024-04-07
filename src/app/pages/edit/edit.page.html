@@ -27,16 +27,23 @@
       </ion-row>
 
       <ion-row>
-        <ion-col size="12" size-Xs="12" size-sm="6" style="max-height: 20em;">
+        <ion-col size="12" size-Xs="6">
           <h4>Original</h4>
+          <ion-button (click)="increaseCrop()">+</ion-button>
+          <ion-button (click)="decreaseCrop()">-</ion-button>
           <image-cropper #cropper [imageBase64]="image.data" [aspectRatio]="1/1" [maintainAspectRatio]="true"
             outputType="base64" format="jpeg" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"
-            (imageCropped)="imageCropped($event)">
+            (imageCropped)="imageCropped($event)" [imageQuality]="100">
           </image-cropper>
         </ion-col>
 
-        <ion-col size="12" size-Xs="12" size-sm="6">
+        <br>
+
+        <ion-col size="12" size-Xs="6">
           <h4>Preview</h4>
+          <ion-label>Weight: {{width}}</ion-label>
+          <br>
+          <ion-label>Height: {{height}}</ion-label>
           <ion-img [src]="this.image.edited" style="height: 50%;"></ion-img>
         </ion-col>
       </ion-row>
