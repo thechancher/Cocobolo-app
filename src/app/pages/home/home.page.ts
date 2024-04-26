@@ -4,6 +4,7 @@ import { LocalFile } from 'src/app/models/tools';
 import { CameraService } from 'src/app/services/camera.service';
 import { EditPage } from '../edit/edit.page';
 import { DetailPage } from '../detail/detail.page';
+import { ServerService } from 'src/app/services/server.service';
 
 @Component({
   selector: 'app-home',
@@ -14,9 +15,17 @@ import { DetailPage } from '../detail/detail.page';
 export class HomePage implements OnInit {
 
   public images: LocalFile[] = []
+  public results = {
+    "result": {
+      "index": [],
+      "names": [],
+      "probs": []
+    }
+  }
 
   constructor(
     protected cameraService: CameraService,
+    protected serverService: ServerService,
     private modalCtrl: ModalController
   ) { }
 
@@ -74,6 +83,20 @@ export class HomePage implements OnInit {
   public async deleteImage(file: LocalFile): Promise<void> {
     await this.cameraService.deleteImage(file)
     this.images = this.cameraService.images
+  }
+
+  public async analyze(file: LocalFile): Promise<void> {
+    var data = file.data.split(",")
+    var data_image = data[1]
+    if (!this.serverService.analyzing) {
+      this.serverService.analyzing = true
+      var result = await this.serverService.analyze(data_image);
+      this.serverService.analyzing = false
+      this.results = result
+      console.log("results: ", result);
+    } else {
+      console.log("analyzing...");
+    }
   }
 
 }

@@ -6,5 +6,6 @@ export interface LocalFile {
     path: string,
     data: string,
     edited: string,
-    details?: string | null
+    details?: string | null,
+    results?: string | null
 }
