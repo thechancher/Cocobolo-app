@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { LocalFile } from 'src/app/models/tools';
+import { LocalFile, Details } from 'src/app/models/image';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
 })
+
 export class DetailPage implements OnInit {
   @Input() image!: LocalFile;
 
@@ -18,12 +19,19 @@ export class DetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.details = this.image.details
+    this.details = this.image.details?.detail
   }
 
   public saveChange(): void {
-    localStorage.setItem(this.image.name, <string>this.details)
-    this.image.details = this.details
+    var details: Details = { detail: "", probability: [] }
+
+    const details_storage = localStorage.getItem(this.image.name);
+    details = details_storage !== null ? JSON.parse(details_storage) : details;
+
+    details.detail = this.details
+
+    localStorage.setItem(this.image.name, JSON.stringify(details))
+    this.image.details = details
     this.modalCtrl.dismiss(this.image)
   }
 

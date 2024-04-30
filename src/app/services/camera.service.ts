@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { LoadingController, Platform, ToastController } from '@ionic/angular';
-import { LocalFile } from '../models/tools';
+import { LocalFile, Details } from '../models/image';
 
 @Injectable({
   providedIn: 'root'
@@ -153,9 +153,12 @@ export class CameraService {
   }
 
   private async loadFileData(fileNames: string[]): Promise<void> {
-    for (let file of fileNames) {
-      const filepath = `${this.IMG_DIR}/${file}`
-      const detail = localStorage.getItem(file)
+    for (let fileName of fileNames) {
+      const filepath = `${this.IMG_DIR}/${fileName}`
+      var details: Details = { detail: "", probability: [] }
+
+      const details_storage = localStorage.getItem(fileName);
+      details = details_storage !== null ? JSON.parse(details_storage) : details;
 
       const readFile = await Filesystem.readFile({
         path: filepath,
@@ -163,11 +166,11 @@ export class CameraService {
       })
 
       this.images.unshift({
-        name: file,
+        name: fileName,
         path: filepath,
         data: `data:image/jpeg;base64,${readFile.data}`,
         edited: '',
-        details: detail
+        details: details
       })
     }
   }

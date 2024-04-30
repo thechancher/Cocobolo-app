@@ -19,23 +19,8 @@
     <ion-row *ngIf="serverService.analyzing">
       <p>analyzing...</p>
     </ion-row>
-    <ion-row *ngIf="!serverService.analyzing">
-      <ion-col size="12" sizeXs="3" *ngIf="results">
-        <p>Nombre: <strong>{{results["result"]["names"][0]}}</strong></p>
-        <p>Probabilidad: <strong>{{results["result"]["probs"][0] | number: '0.1-4'}}</strong></p>
-      </ion-col>
-      <ion-col size="12" sizeXs="3" *ngIf="results">
-        <p>Nombre: <strong>{{results["result"]["names"][1]}}</strong></p>
-        <p>Probabilidad: <strong>{{results["result"]["probs"][1] | number: '0.1-4'}}</strong></p>
-      </ion-col>
-      <ion-col size="12" sizeXs="3" *ngIf="results">
-        <p>Nombre: <strong>{{results["result"]["names"][2]}}</strong></p>
-        <p>Probabilidad: <strong>{{results["result"]["probs"][2] | number: '0.1-4'}}</strong></p>
-      </ion-col>
-      <ion-col size="12" sizeXs="3" *ngIf="results">
-        <p>Nombre: <strong>{{results["result"]["names"][3]}}</strong></p>
-        <p>Probabilidad: <strong>{{results["result"]["probs"][3] | number: '0.1-4'}}</strong></p>
-      </ion-col>
+    <ion-row *ngIf="!serverService.serverHealth">
+      <p>Error: {{serverService.serverError}}</p>
     </ion-row>
     <ion-row>
       <ion-col size="12" size-Xs="6" size-sm="6" size-Md="3" *ngFor="let image of images">
@@ -47,7 +32,11 @@
           </ion-card-header>
           <br>
           <ion-card-content *ngIf="image.details" style="padding: 0; padding-bottom: 1em;">
-            {{image.details}}
+            <p><strong>Details:</strong>{{image.details.detail}}</p>
+            <p *ngFor="let probability of image.details.probability">
+              <strong>Name: </strong>{{probability.name}}
+              <strong>Probability: </strong>{{probability.prob | number: '0.1-4'}}
+            </p>
           </ion-card-content>
 
           <ion-button expand="full" color="cocobolo" (click)="analyze(image)">
@@ -58,9 +47,9 @@
             <ion-icon slot="start" name="create-outline"></ion-icon>
             <ion-label>Edit image</ion-label>
           </ion-button>
-          <ion-button expand="full" color="medium" (click)="editInfo(image)">
+          <ion-button expand="full" color="medium" (click)="editDetails(image)">
             <ion-icon slot="start" name="create-outline"></ion-icon>
-            <ion-label>Edit info</ion-label>
+            <ion-label>Edit details</ion-label>
           </ion-button>
           <ion-button expand="full" color="danger" (click)="deleteImage(image)">
             <ion-icon slot="start" name="trash-outline"></ion-icon>

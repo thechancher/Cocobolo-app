@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { LocalFile } from 'src/app/models/tools';
 import { CameraService } from 'src/app/services/camera.service';
 import { EditPage } from '../edit/edit.page';
 import { DetailPage } from '../detail/detail.page';
 import { ServerService } from 'src/app/services/server.service';
+import { Probability, Result, LocalFile, Details } from 'src/app/models/image';
 
 @Component({
   selector: 'app-home',
@@ -15,13 +15,7 @@ import { ServerService } from 'src/app/services/server.service';
 export class HomePage implements OnInit {
 
   public images: LocalFile[] = []
-  public results = {
-    "result": {
-      "index": [],
-      "names": [],
-      "probs": []
-    }
-  }
+  public probabilities: Probability[] | undefined
 
   constructor(
     protected cameraService: CameraService,
@@ -31,9 +25,13 @@ export class HomePage implements OnInit {
 
   ngOnInit() { }
 
-  ionViewDidEnter() {
+  private loadFiles(): void {
     this.cameraService.loadFiles()
     this.images = this.cameraService.images
+  }
+
+  ionViewDidEnter() {
+    this.loadFiles()
   }
 
   public async takeImage(): Promise<void> {
@@ -64,7 +62,7 @@ export class HomePage implements OnInit {
     return await modal.present()
   }
 
-  async editInfo(image: LocalFile): Promise<void> {
+  async editDetails(image: LocalFile): Promise<void> {
     const modal = await this.modalCtrl.create({
       component: DetailPage,
       componentProps: {
@@ -85,15 +83,33 @@ export class HomePage implements OnInit {
     this.images = this.cameraService.images
   }
 
+  public saveProbabilities(fileName: string): void {
+    var details: Details = { detail: "", probability: [] }
+
+    const details_storage = localStorage.getItem(fileName);
+    details = details_storage !== null ? JSON.parse(details_storage) : details;
+
+    details.probability = this.probabilities
+
+    localStorage.setItem(fileName, JSON.stringify(details))
+
+    this.loadFiles()
+  }
+
   public async analyze(file: LocalFile): Promise<void> {
     var data = file.data.split(",")
     var data_image = data[1]
     if (!this.serverService.analyzing) {
       this.serverService.analyzing = true
-      var result = await this.serverService.analyze(data_image);
+      this.serverService.serverHealth = true
+      this.probabilities = await this.serverService.analyze(data_image);
       this.serverService.analyzing = false
-      this.results = result
-      console.log("results: ", result);
+      if (this.probabilities) {
+        this.serverService.serverHealth = true
+        this.saveProbabilities(file.name)
+      } else {
+        this.serverService.serverHealth = false
+      }
     } else {
       console.log("analyzing...");
     }

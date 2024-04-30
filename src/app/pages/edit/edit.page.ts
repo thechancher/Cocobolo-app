@@ -1,8 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { CropperPosition, ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
-import { LocalFile } from 'src/app/models/tools';
-
+import { LocalFile } from 'src/app/models/image';
 
 @Component({
   selector: 'app-edit',
