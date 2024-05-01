@@ -8,7 +8,7 @@ import { Probability, Result } from '../models/image';
 })
 export class ServerService {
 
-  private readonly URL_ROOT: string = "CNN"
+  private readonly URL_ROOT: string = "https://35.222.94.6/CNN"
   public analyzing: boolean = false
   public serverHealth: boolean = true
   public serverError: string = ""
