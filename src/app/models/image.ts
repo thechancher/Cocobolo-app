@@ -1,6 +1,7 @@
 export interface Probability {
     index: number,
     name: string,
+    label: string,
     prob: number
 }
 
@@ -19,4 +20,9 @@ export interface LocalFile {
     data: string,
     edited: string,
     details: Details
+}
+
+export interface ClassName {
+    id: number,
+    name: string
 }

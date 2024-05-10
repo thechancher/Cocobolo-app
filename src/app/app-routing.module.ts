@@ -12,8 +12,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/about/about.module').then(m => m.AboutPageModule)
   },
   {
-    path: 'history',
-    loadChildren: () => import('./pages/history/history.module').then(m => m.HistoryPageModule)
+    path: 'dataset',
+    loadChildren: () => import('./pages/dataset/dataset.module').then(m => m.DatasetPageModule)
   },
   {
     path: 'home',

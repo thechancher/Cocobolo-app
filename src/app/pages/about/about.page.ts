@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 
 export class AboutPage implements OnInit {
 
+  date : string = new Date().toISOString();
+  currentYear : number = (new Date()).getFullYear();
+
   constructor() { }
 
   ngOnInit() { }

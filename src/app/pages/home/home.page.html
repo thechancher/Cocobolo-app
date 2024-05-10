@@ -33,10 +33,15 @@
           <br>
           <ion-card-content *ngIf="image.details" style="padding: 0; padding-bottom: 1em;">
             <p><strong>Details:</strong>{{image.details.detail}}</p>
-            <p *ngFor="let probability of image.details.probability">
-              <strong>Name: </strong>{{probability.name}}
-              <strong>Probability: </strong>{{probability.prob | number: '0.1-4'}}
-            </p>
+            <div *ngIf="serverService.class_names">
+              <p *ngFor="let probability of image.details.probability">
+                <strong>Name: </strong>{{probability.label}}
+                <br>
+                <strong>Probability: </strong>{{probability.prob | number: '0.1-4'}}
+                <br>
+                <br>
+              </p>
+            </div>
           </ion-card-content>
 
           <ion-button expand="full" color="cocobolo" (click)="analyze(image)">

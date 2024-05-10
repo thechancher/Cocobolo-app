@@ -21,7 +21,9 @@ export class HomePage implements OnInit {
     protected cameraService: CameraService,
     protected serverService: ServerService,
     private modalCtrl: ModalController
-  ) { }
+  ) { 
+    serverService.getClassNames()
+  }
 
   ngOnInit() { }
 

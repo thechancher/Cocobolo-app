@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HistoryPageRoutingModule } from './history-routing.module';
+import { DatasetPageRoutingModule } from './dataset-routing.module';
 
-import { HistoryPage } from './history.page';
+import { DatasetPage } from './dataset.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HistoryPageRoutingModule
+    DatasetPageRoutingModule
   ],
-  declarations: [HistoryPage]
+  declarations: [DatasetPage]
 })
-export class HistoryPageModule {}
+export class DatasetPageModule {}
