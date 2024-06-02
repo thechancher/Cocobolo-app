@@ -11,7 +11,7 @@ import { LocalFile, Details } from 'src/app/models/image';
 export class DetailPage implements OnInit {
   @Input() image!: LocalFile;
 
-  details?: string | null
+  public details?: string | null
 
   constructor(
     public loadingCtrl: LoadingController,

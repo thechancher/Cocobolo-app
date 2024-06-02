@@ -6,12 +6,14 @@ export interface Probability {
 }
 
 export interface Result {
-    probs: Probability[]
+    probs: Probability[],
+    time: number
 }
 
 export interface Details {
     detail?: string | null,
-    probability?: Probability[]
+    probability?: Probability[],
+    time?: number
 }
 
 export interface LocalFile {

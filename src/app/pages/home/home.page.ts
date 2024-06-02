@@ -16,12 +16,13 @@ export class HomePage implements OnInit {
 
   public images: LocalFile[] = []
   public probabilities: Probability[] | undefined
+  public time: number = 0
 
   constructor(
     protected cameraService: CameraService,
     protected serverService: ServerService,
     private modalCtrl: ModalController
-  ) { 
+  ) {
     serverService.getClassNames()
   }
 
@@ -46,7 +47,7 @@ export class HomePage implements OnInit {
     this.images = this.cameraService.images
   }
 
-  async editImage(image: LocalFile): Promise<void> {
+  public async editImage(image: LocalFile): Promise<void> {
     const modal = await this.modalCtrl.create({
       component: EditPage,
       componentProps: {
@@ -64,7 +65,7 @@ export class HomePage implements OnInit {
     return await modal.present()
   }
 
-  async editDetails(image: LocalFile): Promise<void> {
+  public async editDetails(image: LocalFile): Promise<void> {
     const modal = await this.modalCtrl.create({
       component: DetailPage,
       componentProps: {
@@ -92,6 +93,7 @@ export class HomePage implements OnInit {
     details = details_storage !== null ? JSON.parse(details_storage) : details;
 
     details.probability = this.probabilities
+    details.time = this.time
 
     localStorage.setItem(fileName, JSON.stringify(details))
 
@@ -104,7 +106,9 @@ export class HomePage implements OnInit {
     if (!this.serverService.analyzing) {
       this.serverService.analyzing = true
       this.serverService.serverHealth = true
-      this.probabilities = await this.serverService.analyze(data_image);
+      let result: Result = await <Result><unknown>this.serverService.analyze(data_image);
+      this.probabilities = result.probs
+      this.time = result.time
       this.serverService.analyzing = false
       if (this.probabilities) {
         this.serverService.serverHealth = true

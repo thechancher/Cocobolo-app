@@ -8,7 +8,7 @@ import { ClassName, Probability, Result } from '../models/image';
 })
 export class ServerService {
 
-  private readonly api_CNN: string = "https://35.222.94.6/CNN"
+  private readonly api_CNN: string = "https://35.222.94.6/ViT"
   private readonly api_class_names: string = "https://35.222.94.6/class_names"
   public analyzing: boolean = false
   public serverHealth: boolean = true
@@ -33,7 +33,7 @@ export class ServerService {
     }
   }
 
-  public async analyze(image: string): Promise<Probability[] | undefined> {
+  public async analyze(image: string): Promise<Result | undefined> {
     console.log("this.analyzing: ", this.analyzing);
     const result: Result | void = await firstValueFrom(this.http.post<Result>(this.api_CNN,
       {
@@ -48,7 +48,7 @@ export class ServerService {
 
     if (result) {
       console.log("result: ", result);
-      return result.probs
+      return result
     } else {
       return undefined
     }

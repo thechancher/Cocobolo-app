@@ -9,8 +9,8 @@ import { ServerService } from 'src/app/services/server.service';
 })
 export class DatasetPage implements OnInit {
 
-  constructor(public server_service: ServerService) {
-    server_service.getClassNames()
+  constructor(public serverService: ServerService) {
+    serverService.getClassNames()
   }
 
   ngOnInit() { }

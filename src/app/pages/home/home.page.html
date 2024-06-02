@@ -32,7 +32,12 @@
           </ion-card-header>
           <br>
           <ion-card-content *ngIf="image.details" style="padding: 0; padding-bottom: 1em;">
-            <p><strong>Details:</strong>{{image.details.detail}}</p>
+            <p><strong>Details: </strong>{{image.details.detail}}</p>
+            <div *ngIf="image.details.time">
+              <p><strong>Execution time: </strong>{{image.details.time | number : '0.3-3' }} sec.</p>
+              <br>
+            </div>
+            <p><strong>Probabilities:</strong></p>
             <div *ngIf="serverService.class_names">
               <p *ngFor="let probability of image.details.probability">
                 <strong>Name: </strong>{{probability.label}}

@@ -9,7 +9,7 @@ import { LocalFile, Details } from '../models/image';
 })
 
 export class CameraService {
-  private IMG_DIR = "stored-images"
+  private IMG_DIR: string = "stored-images"
   public images: LocalFile[] = []
 
   constructor(
